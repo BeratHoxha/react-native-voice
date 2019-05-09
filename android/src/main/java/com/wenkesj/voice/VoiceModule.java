@@ -1,5 +1,8 @@
 package com.wenkesj.voice;
 
+import android.media.AudioManager;
+import android.content.Context;
+
 import android.Manifest;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -123,6 +126,11 @@ public class VoiceModule extends ReactContextBaseJavaModule implements Recogniti
     }
 
     intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, getLocale(this.locale));
+    intent.putExtra("android.speech.extra.DICTATION_MODE", true);
+
+    AudioManager audioManager = (AudioManager) this.getCurrentActivity().getSystemService(Context.AUDIO_SERVICE);
+    audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0);
+
     speech.startListening(intent);
   }
 
